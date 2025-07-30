@@ -1,12 +1,12 @@
-import login from "./login.js"
-import register from "./register.js"
+import login, { handelLoginbind } from "./login.js"
+import register, { handleRegisterBind } from "./register.js"
 
 const root=document.getElementById('root')
 const allAnchors=document.querySelectorAll('a')
 
 const router={
-    "/login":login,
-    "/register":register
+    "/login":[login, handelLoginbind ],
+    "/register":[register, handleRegisterBind]
 }
 
 function handelClick(e){
@@ -14,7 +14,10 @@ function handelClick(e){
 //   console.log(e.target.pathname);
 let path=e.target.pathname
   history.pushState(null,"",`${path}`)
-root.innerHTML=router[path]()
+root.innerHTML=router[path][0]()
+if(router[path][1]){
+  router[path][1]()
+}
 }
 allAnchors.forEach((anchor)=>{
     anchor.addEventListener("click",handelClick)
@@ -30,6 +33,5 @@ root.innerHTML=""
 }
   
 })
-
 
 
