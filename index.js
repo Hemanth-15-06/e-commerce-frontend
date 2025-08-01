@@ -1,12 +1,12 @@
 import login, { handelLoginbind } from "./login.js"
-import register, { handleRegisterBind } from "./register.js"
+import register, { handelRegisterBind } from "./register.js"
 
 const root=document.getElementById('root')
 const allAnchors=document.querySelectorAll('a')
 
 const router={
     "/login":[login, handelLoginbind ],
-    "/register":[register, handleRegisterBind]
+    "/register":[register, handelRegisterBind]
 }
 
 function handelClick(e){
@@ -26,12 +26,15 @@ allAnchors.forEach((anchor)=>{
 window.addEventListener('popstate',(e)=>{
   // console.log(location);
   let path=location.pathname
+  // console.log(path);
+  
 if(path=="/index.html"){
 root.innerHTML=""
 }else{
-  root.innerHTML=router[path]()
+  root.innerHTML=router[path][0]()
+ if( router[path][1]){
+   router[path][1]()
+ }
 }
   
 })
-
-
